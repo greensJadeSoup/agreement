@@ -33,10 +33,11 @@ public class RoolingAndDateFileAppender extends RollingFileAppender{
             LogLog.debug("rolling over count="+size);
         }
         LogLog.debug("maxBackupIndex="+this.maxBackupIndex);
+        //是否清除过期文件
         //如果maxIndex<=0则不需命名
-        if(maxIndex!=null&&Integer.parseInt(maxIndex)>0){
+        /*if(maxIndex!=null&&Integer.parseInt(maxIndex)>0){
             //删除旧文件
-            file=new File(this.fileName+'.'+dateStr+'.'+Integer.parseInt(this.maxIndex));
+            file=new File(this.fileName+'-'+dateStr+'-'+Integer.parseInt(this.maxIndex));
             if(file.exists()){
                 //如果当天日志达到最大设置数量，则删除当天第一个日志，其他日志为尾号减一
                 Boolean boo = reLogNum();
@@ -44,11 +45,11 @@ public class RoolingAndDateFileAppender extends RollingFileAppender{
                     LogLog.debug("日志滚动重命名失败！");
                 }
             }
-        }
+        }*/
         //获取当天日期文件个数
         int count=cleanLog();
         //生成新文件
-        target=new File(fileName+"."+dateStr+"."+(count+1));
+        target=new File(fileName+"-"+dateStr+"-"+(count+1)+".log");
         this.closeFile();
         file=new File(fileName);
         LogLog.debug("Renaming file"+file+"to"+target);
@@ -104,19 +105,19 @@ public class RoolingAndDateFileAppender extends RollingFileAppender{
      * 其他日志编号依次减去1，重命名
      * @return
      */
-    public Boolean reLogNum(){
+    /*public Boolean reLogNum(){
         boolean renameTo=false;
-        File startFile = new File(this.fileName+'.'+dateStr+'.'+"1");
+        File startFile = new File(this.fileName+'-'+dateStr+'-'+"1"+".log");
         if(startFile.exists()&&startFile.delete()){
             for(int i=2;i<=Integer.parseInt(maxIndex);i++){
-                File target = new File(this.fileName+'.'+dateStr+'.'+(i-1));
+                File target = new File(this.fileName+'-'+dateStr+'-'+(i-1)+".log");
                 this.closeFile();
-                File file = new File(this.fileName+'.'+dateStr+'.'+i);
+                File file = new File(this.fileName+'-'+dateStr+'-'+i+".log");
                 renameTo=file.renameTo(target);
             }
         }
         return renameTo;
-    }
+    }*/
     public String getDateStr() {
         return dateStr;
     }
